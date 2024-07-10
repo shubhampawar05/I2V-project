@@ -1,0 +1,54 @@
+<div class="content">
+  <div>
+    <h2>Product List</h2>
+    <button (click)="openAddProductModal()">ADD New Product</button>
+
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th colspan="3">Actions</th>
+      </tr>
+      <tr *ngFor="let product of products">
+        <td>{{ product.productID }}</td>
+        <td>{{ product.productName }}</td>
+        <td>{{ product.price }}</td>
+        <td><button (click)="openEditProductModal(product)">Edit</button></td>
+        <td><button (click)="openAddToCartModal(product)">Add TO CART</button></td>
+        <td><button (click)="deleteProduct(product.productID)">Delete</button></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Add/Edit Product Modal -->
+  <div *ngIf="isProductModalOpen" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeProductModal()">&times;</span>
+      <h2>{{ isEditing ? 'Edit Product' : 'Add Product' }}</h2>
+      <form (ngSubmit)="isEditing ? updateProduct() : addProduct()">
+        <label for="productName">Name:</label>
+        <input type="text" id="productName" [(ngModel)]="productForm.productName" name="productName" required>
+        
+        <label for="price">Price:</label>
+        <input type="number" id="price" [(ngModel)]="productForm.price" name="price" required>
+        
+        <button type="submit">{{ isEditing ? 'Update' : 'Add' }}</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add to Cart Modal -->
+  <div *ngIf="isCartModalOpen" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeCartModal()">&times;</span>
+      <h2>Add to Cart</h2>
+      <form (ngSubmit)="addToCart()">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" [(ngModel)]="cartForm.quantity" name="quantity" required>
+        
+        <button type="submit">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+</div>
